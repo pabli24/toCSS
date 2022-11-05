@@ -17,6 +17,7 @@
   "scripts": {
     "dev:11ty": "eleventy --serve --incremental --quiet",
     "dev:stylus": "stylus -m -w src/style.styl -o dist/style.css",
-    "build": "eleventy && uglifyjs src/js/script.js -c -m -o dist/js/script.js && stylus -c src/style.styl -o dist/style.css"
+    "build": "eleventy && uglifyjs src/js/script.js -c -m -o dist/js/script.js && stylus -c src/style.styl -o dist/style.css",
+    "build/tocss": "eleventy --pathprefix=tocss && uglifyjs src/js/script.js -c -m -o dist/js/script.js && stylus -c src/style.styl -o dist/style.css"
   }
 }
