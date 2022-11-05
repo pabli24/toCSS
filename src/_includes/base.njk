@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ title }}</title>
+	<meta name="description" content="Convert Stylus or Less preporcessors to CSS Online">
+	<meta name="keywords" content="Stylus, Less, CSS, Editor, Converter, preprocessor, compiler, online, online compiler, online editor">
+	<meta name="color-scheme" content="dark">
+	<meta name="theme-color" content="#1a1a1a">
+	<link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../style.css">
+	
+	<script src="../js/ace/src-min-noconflict/ace.js"></script>
+	<script src="../js/ace/src-min-noconflict/theme-tomorrow_night_bright.js"></script>
+	<script src="../js/ace/src-min-noconflict/ext-language_tools.js"></script>
+	<script src="../js/ace/src-min-noconflict/ext-settings_menu.js"></script>
+	<script src="../js/ace/sb/ext-statusbar2.js"></script>
+	<link rel="stylesheet" href="../js/ace/cp/ace-colorpicker.css">
+	<script src="../js/ace/cp/ace-colorpicker.min.js"></script>
+
+	<script src="{{ preprocessor }}"></script>
+
+	<script src="../js/lz-string.min.js"></script>
+</head>
+<body>
+
+{{ content | safe }}
+
+<footer></footer>
+
+</body>
+</html>

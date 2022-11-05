@@ -1,0 +1,41 @@
+<div class="container">
+	<div id="input" class="io">
+		<pre id="editor" class="editor"></pre>
+		<div id="statusBar" class="statusBar">
+			<span class="flex">
+				<span>Input <span id="version">{{ version }}</span></span>
+				<button id="settings" class="flex icon" title="Settings (ctrl + q)">
+					<img src="../img/settings-3-fill.svg" />
+				</button>
+				<button id="save" class="flex icon" title="Save (ctrl + s)">
+					<img src="../img/save-3-fill.svg" />
+				</button>
+			</span>
+			<span class="flex">
+				<span>Length: </span>
+				<span id="length">0</span>
+			</span>
+		</div>
+	</div>
+	<div id="resizer" title="double click to reset"></div>
+	<div id="output" class="io">
+		<pre id="editor2" class="editor"></pre>
+		<div id="statusBar2" class="statusBar">
+			<span class="flex">
+				<span>Output (CSS) </span>
+				<button id="settings2" class="flex icon" title="Settings (ctrl + q)">
+					<img src="../img/settings-3-fill.svg" />
+				</button>
+				<button id="save2" class="flex icon" title="Save (ctrl + s)">
+					<img src="../img/save-3-fill.svg" />
+				</button>
+			</span>
+			<span class="flex">
+				<span>Length: </span>
+				<span id="length2">0</span>
+			</span>
+		</div>
+	</div>
+</div>
+
+<script src="../js/script.js"></script>

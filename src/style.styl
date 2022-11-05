@@ -1,0 +1,219 @@
+:root
+	color-scheme: dark
+	--bg: #1a1a1a
+	--txt: #eee
+
+html, body
+	background: var(--bg)
+	color: var(--txt)
+	font-family: 'Roboto', sans-serif
+
+*, *::before, *::after
+	box-sizing: inherit
+
+html
+	box-sizing: border-box
+	font-size: 62.5%
+
+body
+	margin: 0
+	padding: 0
+	font-size: 1.6rem
+	overflow: hidden
+
+pre
+	margin: 0
+
+a
+	color: #aaa
+	text-decoration: none
+	text-shadow: .5rem .5rem 2rem black
+	transition: color 0.5s ease
+	&:hover
+		color: var(--txt)
+
+.logo
+	color: var(--txt)
+	img
+		width: 2.5rem
+
+nav > *:not(:last-child)
+	margin-right: .5rem
+
+nav button
+	width: 8rem
+	height: 1.8rem
+	border-radius: 2rem
+	justify-content: center
+
+button
+	background: #333
+	border: none
+	cursor: pointer
+
+.icon
+	background: none
+	padding: 0
+	margin: 0
+
+.flex
+	display: flex
+	align-items: center
+	align-content: center
+	flex-direction: row
+	flex-wrap: wrap
+	word-break: break-word
+	white-space: break-spaces
+
+header
+	background-color: var(--bg)
+	border-bottom: 1px solid #333
+	height: 3rem
+	padding: 0 1rem
+	justify-content: space-between
+
+#resizer
+	background-color: var(--bg)
+	width: 0.6rem
+	height: calc(100vh - 3rem)
+	cursor: col-resize
+	border-width: 0 1px
+	border-style: dashed
+	border-color: #555
+	user-select: none
+	touch-action: none
+	&:active
+		border-color: #777
+		&::before
+			content: ""
+			position: fixed
+			width: 100%
+			height: 100%
+			z-index: 999
+			left: 0
+			top: 0
+
+.container
+	display: flex
+
+.io
+	height: calc(100vh - 3rem)
+	display: flex
+	flex-direction: column
+	width: 50%
+
+.editor
+	width: 100%
+	height: 100%
+
+.statusBar
+	background: var(--bg)
+	border-top: 1px solid #333
+	display: flex
+	justify-content: space-between
+	align-content: center
+	align-items: center
+	padding: 0.3rem
+
+.hide
+	display: none
+
+.center 
+	display: flex
+	justify-content: center
+	align-items: center
+	align-content: center
+	flex-direction: column
+	width: 100vw
+	height: 100vh
+	font-size: 5rem
+	img
+		filter: drop-shadow(.5rem .5rem 2rem black)
+		vertical-align: middle
+	h1
+		font-size: 5rem
+		margin: 0
+		padding: 0
+	> div
+		display: flex
+		justify-content: center
+		align-items: center
+		flex-wrap: wrap
+		flex-direction: column
+		padding: 5rem
+		border-radius: 3rem 5rem
+		box-shadow: 0 0 4rem 0 black
+		> span
+			display: flex
+			justify-content: space-around
+			flex-wrap: nowrap
+			align-items: baseline
+			width: 100%
+			font-weight: bold
+
+[href*="stylus"]
+	color: hsl(69, 94%, 40%)
+	&:hover
+		color: hsl(69, 94%, 50%)
+[href*="less"]
+	color: hsl(217, 52%, 60%)
+	&:hover
+		color: hsl(217, 52%, 70%)
+
+footer
+	margin-top: 1rem
+	font-size: 2rem
+
+// ace settings menu
+#ace_settingsmenu, #kbshortcutmenu
+	background-color: #101010
+	color: #fff
+	box-shadow: -5px 4px 5px rgba(0, 0, 0, 0.55)
+
+.ace_optionsMenuEntry button
+	background: black
+	border: 1px solid #404040
+	margin: 0px
+
+.ace_optionsMenuEntry button[ace_selected_button=true]
+	background: #3c3c3c
+	box-shadow: 1px 0 2px 0 #5c5c5c inset
+	border-color: #242424
+
+.ace_optionsMenuEntry button:hover
+	background: #666666
+
+// ace command palette
+.ace_prompt_container
+	background: #000
+	box-shadow: 0 3px 15px 5px #222
+
+.ace-tm
+	background-color: #000
+	color: #fff
+
+.ace_editor.ace_autocomplete
+	border: 1px #303030 solid
+	box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2)
+	background: #000
+	color: #fff
+
+.ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line
+	background-color: #343434
+
+.ace_completion-message
+	color: #b9cbff
+
+.ace_editor.ace_autocomplete .ace_line-hover 
+	border: 1px solid #303030
+	background: rgba(233,233,253,0.4)
+
+// ace scrollbar
+.ace_editor > .ace_sb-v div,
+.ace_editor > .ace_sb-h div
+	background: rgba(128, 128, 128, 0.5)
+	border: 1px solid rgba(128, 128, 128, 0.3)
+	transition: background 0.5s
+	&:hover
+		background: rgba(128, 128, 128, 0.3)
+		border: 1px solid rgba(128, 128, 128, 0.5)
