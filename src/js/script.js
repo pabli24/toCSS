@@ -1,16 +1,16 @@
-"use strict"
+'use strict'
 
 //* ace editor settings
 let setting = {
-	theme: "ace/theme/tomorrow_night_bright",
-	mode: "ace/mode/css",
+	theme: 'ace/theme/tomorrow_night_bright',
+	mode: 'ace/mode/css',
 	fontSize: 16,
 	wrap: true,
 	printMargin: false,
 	useSoftTabs: false,
 	tabSize: 4,
-	cursorStyle: "smooth",
-	keyboardHandler: "ace/keyboard/vscode",
+	cursorStyle: 'smooth',
+	keyboardHandler: 'ace/keyboard/vscode',
 	enableBasicAutocompletion: true,
 	enableLiveAutocompletion: true,
 	autoScrollEditorIntoView: true,
@@ -18,13 +18,13 @@ let setting = {
 	customScrollbar: true,
 	animatedScroll: true
 }
-let editor = ace.edit("editor", setting)
-let editor2 = ace.edit("editor2", setting)
+let editor = ace.edit('editor', setting)
+let editor2 = ace.edit('editor2', setting)
 
 ace.require('ace/ext/settings_menu').init(editor)
 editor.commands.addCommands([{
-	name: "showSettingsMenu",
-	bindKey: {win: "Ctrl-q", mac: "Ctrl-q"},
+	name: 'showSettingsMenu',
+	bindKey: {win: 'Ctrl-q', mac: 'Ctrl-q'},
 	exec: function(editor) {
 		editor.showSettingsMenu()
 	},
@@ -32,26 +32,26 @@ editor.commands.addCommands([{
 }])
 ace.require('ace/ext/settings_menu').init(editor2)
 editor2.commands.addCommands([{
-	name: "showSettingsMenu",
-	bindKey: {win: "Ctrl-q", mac: "Ctrl-q"},
+	name: 'showSettingsMenu',
+	bindKey: {win: 'Ctrl-q', mac: 'Ctrl-q'},
 	exec: function(editor2) {
 		editor2.showSettingsMenu()
 	},
 	readOnly: true
 }])
-const settings = document.getElementById("settings")
+const settings = document.getElementById('settings')
 settings.onclick = () => editor.showSettingsMenu()
-const settings2 = document.getElementById("settings2")
+const settings2 = document.getElementById('settings2')
 settings2.onclick = () => editor2.showSettingsMenu()
 
-let StatusBar = ace.require("ace/ext/statusbar").StatusBar;
-let sb = new StatusBar(editor, document.getElementById("statusBar"))
-let sb2 = new StatusBar(editor2, document.getElementById("statusBar2"))
+let StatusBar = ace.require('ace/ext/statusbar').StatusBar;
+let sb = new StatusBar(editor, document.getElementById('statusBar'))
+let sb2 = new StatusBar(editor2, document.getElementById('statusBar2'))
 
 let path = window.location.pathname.split('/')
 let params = new URLSearchParams(document.location.search);
-let param_code = params.get("code")
-let param_c = params.get("c")
+let param_code = params.get('code')
+let param_c = params.get('c')
 
 if (param_code !== null) {
 	editor.session.setValue(param_code)
@@ -60,56 +60,18 @@ else if (param_c !== null) {
 	param_c = LZString.decompressFromEncodedURIComponent(param_c)
 	editor.session.setValue(param_c)
 }
-else if (localStorage.getItem('codeStylus') !== null && path.includes("stylus")) {
+else if (localStorage.getItem('codeStylus') !== null && path.includes('stylus')) {
 	editor.session.setValue(localStorage.getItem('codeStylus'))
 }
-else if (localStorage.getItem('codeLess') !== null && path.includes("less")) {
+else if (localStorage.getItem('codeLess') !== null && path.includes('less')) {
 	editor.session.setValue(localStorage.getItem('codeLess'))
-}
-else {
-	if (path.includes("stylus")) {
-	editor.session.setValue(
-`box-shadow($x = 0, $y = 0, $blur = 1px, $alpha = 1)
-	$val = $x $y $blur rgba(0, 0, 0, $alpha)
-	-webkit-box-shadow: $val
-	-moz-box-shadow:    $val
-	box-shadow:         $val
-
-.box
-	base = #f938ab
-	color:        saturate(base, 5%)
-	border-color: lighten(base, 30%)
-	div
-		box-shadow: 0 0 5px 0.4
-`
-	)
-	}
-	else {
-		editor.session.setValue(
-`.box-shadow (@x: 0, @y: 0, @blur: 1px, @alpha: 1) {
-	@val: @x @y @blur rgba(0, 0, 0, @alpha);
-	-webkit-box-shadow: @val;
-	-moz-box-shadow:    @val;
-	box-shadow:         @val;
-}
-.box {
-	@base: #f938ab;
-	color:        saturate(@base, 5%);
-	border-color: lighten(@base, 30%);
-	div {
-		.box-shadow(0, 0, 5px, 0.4);
-	}
-}
-`
-	)
-	}
 }
 
 //* length
-let lgth = document.getElementById("length")
-let lgth2 = document.getElementById("length2")
+let lgth = document.getElementById('length')
+let lgth2 = document.getElementById('length2')
 const codeL = e => {
-	e = new TextEncoder().encode(e.getValue().replaceAll("\n", "\r\n")).length
+	e = new TextEncoder().encode(e.getValue()).length
 	return new Intl.NumberFormat().format(e)
 }
 let editorL = () => {
@@ -118,8 +80,8 @@ let editorL = () => {
 }
 
 //* lang
-if (path.includes("stylus")) {
-	editor.session.setMode("ace/mode/stylus", () => {
+if (path.includes('stylus')) {
+	editor.session.setMode('ace/mode/stylus', () => {
 		AceColorPicker.load(ace, editor)
 	})
 	let update = () => {
@@ -135,12 +97,12 @@ if (path.includes("stylus")) {
 	editor.session.on('change', () => update())
 	update()
 }
-else if (path.includes("less")) {
-	editor.session.setMode("ace/mode/less", () => {
+else if (path.includes('less')) {
+	editor.session.setMode('ace/mode/less', () => {
 		AceColorPicker.load(ace, editor)
 	})
-	let version = document.getElementById("version")
-	version.innerHTML = "(Less v" + less.version[0] + "." + less.version[1] + "." + less.version[2] + ") "
+	// let version = document.getElementById('version')
+	// version.innerHTML = 'Less v' + less.version[0] + '.' + less.version[1] + '.' + less.version[2]
 	let update = () => {
 		less.render(editor.getValue()).then((code) => {
 			editor2.session.setValue(code.css)
@@ -159,10 +121,10 @@ editor.session.on('change', () => editorL())
 editor2.session.on('change', () => editorL())
 
 //* share
-let share = document.getElementById("share")
+let share = document.getElementById('share')
 share.onclick = () => {
 	let decodeurl = LZString.compressToEncodedURIComponent(editor.getValue());
-	let link = window.location.origin + window.location.pathname + "?c=" + decodeurl
+	let link = window.location.origin + window.location.pathname + '?c=' + decodeurl
 	navigator.clipboard.writeText(link)
 }
 
@@ -175,38 +137,34 @@ const downloadToFile = (content, filename, contentType) => {
 	a.click()
 	URL.revokeObjectURL(a.href)
 }
-let extension = "styl"
-if (path.includes("less")) {extension = 'less'}
-let saveLeft = () => {
-	downloadToFile(editor.getValue().replaceAll("\n", "\r\n"), 'style.' + extension, 'text/plain;charset=UTF-8')
-}
-document.querySelector('#save').addEventListener('click', () => {
-saveLeft()
-})
+let extension = 'styl'
+if (path.includes('less')) {extension = 'less'}
+
+let saveLeft = () => downloadToFile(editor.getValue(), 'style.' + extension, 'text/plain;charset=UTF-8')
+document.getElementById('save').addEventListener('click', () => saveLeft())
+
 editor.commands.addCommands([{
-	name: "saveFile",
-	bindKey: {win: "Ctrl-s", mac: "Ctrl-s"},
+	name: 'saveFile',
+	bindKey: {win: 'Ctrl-s', mac: 'Ctrl-s'},
 	exec: () => saveLeft(),
 	readOnly: true
 }])
-let saveCSS = () => {
-	downloadToFile(editor2.getValue().replaceAll("\n", "\r\n"), 'style.css', 'text/plain;charset=UTF-8')
-}
-document.querySelector('#save2').addEventListener('click', () => {
-	saveCSS()
-})
+
+let saveCSS = () => downloadToFile(editor2.getValue(), 'style.css', 'text/plain;charset=UTF-8')
+document.getElementById('save2').addEventListener('click', () => saveCSS())
+
 editor2.commands.addCommands([{
-	name: "saveFile",
-	bindKey: {win: "Ctrl-s", mac: "Ctrl-s"},
+	name: 'saveFile',
+	bindKey: {win: 'Ctrl-s', mac: 'Ctrl-s'},
 	exec: () => saveCSS(),
 	readOnly: true
 }])
 
 //* open in popup
-const popup = document.getElementById("popup")
-popup.onclick = () => window.open(window.location, "mozillaWindow", "popup")
+const popup = document.getElementById('popup')
+popup.onclick = () => window.open(window.location, 'mozillaWindow', 'popup')
 if (window.opener !== null) {
-	popup.classList.add("hide")
+	popup.classList.add('hide')
 }
 //* resizer
 let aceResize = () => {

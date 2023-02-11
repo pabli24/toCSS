@@ -26,7 +26,7 @@ var StatusBar = function (editor, parentNode) {
         var c = sel.lead;
         if (!sel.isEmpty()) {
             var r = editor.getSelectionRange();
-            add("(" + (r.end.row - r.start.row + 1) + ":" + (r.end.column - r.start.column) + ")", " ");
+            add("(" + (r.end.row - r.start.row + 1) + ":" + (editor.getSelectedText().length) + ")", " ");
         }
         add("Ln " + (c.row + 1) + ", Col " + (c.column + 1), " ");
         if (sel.rangeCount)

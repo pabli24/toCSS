@@ -2,8 +2,8 @@
 
 Dependecies
 ---
-- Editor: [Ace Editor](https://ace.c9.io/), [Colorpicker for ACE Editor](https://github.com/easylogic/ace-colorpicker)
-- Preprocessors: [Stylus lang bundle](https://github.com/openstyles/stylus-lang-bundle), [Less](https://lesscss.org/)
+- Editor: [Ace Editor](https://github.com/ajaxorg/ace), [Colorpicker for ACE Editor](https://github.com/easylogic/ace-colorpicker)
+- Preprocessors: [Stylus lang bundle](https://github.com/openstyles/stylus-lang-bundle), [Less](https://github.com/less/less.js)
 - Icons: [Remix Icon](https://remixicon.com/)
 
 Dev

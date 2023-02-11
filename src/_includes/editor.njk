@@ -1,9 +1,9 @@
 <div class="container">
 	<div id="input" class="io">
-		<pre id="editor" class="editor"></pre>
+		<pre id="editor" class="editor">{% block content %}{% endblock %}</pre>
 		<div id="statusBar" class="statusBar">
 			<span class="flex">
-				<span>Input <span id="version">{{ version }}</span></span>
+				<span>Input (<a id="version" href="{{ docs }}" target="_blank" title="Check the documentation for {{ version }}">{{ version }}</a>) </span>
 				<button id="settings" class="flex icon" title="Settings (ctrl + q)">
 					<img src="{{ '/img/settings-3-fill.svg' | url }}" />
 				</button>
@@ -12,7 +12,7 @@
 				</button>
 			</span>
 			<span class="flex">
-				<span>Length: </span>
+				<span title="Length - Unix (LF)">Length: </span>
 				<span id="length">0</span>
 			</span>
 		</div>
@@ -31,7 +31,7 @@
 				</button>
 			</span>
 			<span class="flex">
-				<span>Length: </span>
+				<span title="Length - Unix (LF)">Length: </span>
 				<span id="length2">0</span>
 			</span>
 		</div>
