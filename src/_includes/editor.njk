@@ -1,5 +1,5 @@
-<div class="container">
-	<div id="input" class="io">
+<div id="container" {{ name }}>
+	<div id="input">
 		<pre id="editor" class="editor">{% block content %}{% endblock %}</pre>
 		<div id="statusBar" class="statusBar">
 			<span class="flex">
@@ -11,14 +11,15 @@
 					<img src="{{ '/img/save-3-fill.svg' | url }}" />
 				</button>
 			</span>
-			<span class="flex">
-				<span title="Length - Unix (LF)">Length: </span>
+			<span title="Bytes | Unix (LF)" class="flex">
+				<span>Length: </span>
 				<span id="length">0</span>
 			</span>
 		</div>
 	</div>
-	<div id="resizer" title="double click to reset"></div>
-	<div id="output" class="io">
+	<div id="resizer" title="Double click to center"></div>
+	<div id="output">
+		<noscript> Your browser doesn't support JavaScript or it's disabled.</noscript>
 		<pre id="editor2" class="editor"></pre>
 		<div id="statusBar2" class="statusBar">
 			<span class="flex">
@@ -30,8 +31,8 @@
 					<img src="{{ '/img/save-3-fill.svg' | url }}" />
 				</button>
 			</span>
-			<span class="flex">
-				<span title="Length - Unix (LF)">Length: </span>
+			<span title="Bytes | Unix (LF)" class="flex">
+				<span>Length: </span>
 				<span id="length2">0</span>
 			</span>
 		</div>

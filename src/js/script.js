@@ -48,25 +48,30 @@ let StatusBar = ace.require('ace/ext/statusbar').StatusBar;
 let sb = new StatusBar(editor, document.getElementById('statusBar'))
 let sb2 = new StatusBar(editor2, document.getElementById('statusBar2'))
 
-let path = window.location.pathname.split('/')
-let params = new URLSearchParams(document.location.search);
-let param_code = params.get('code')
-let param_c = params.get('c')
+let pp = document.getElementById('container')
 
-if (param_code !== null) {
-	editor.session.setValue(param_code)
+let url = new URL(location);
+let params = url.searchParams
+let paramCode = params.get('code')
+let paramC = params.get('c')
+// let params = new URLSearchParams(document.location.search);
+
+if (paramCode !== null) {
+	editor.session.setValue(paramCode)
 }
-else if (param_c !== null) {
-	param_c = LZString.decompressFromEncodedURIComponent(param_c)
-	editor.session.setValue(param_c)
+else if (paramC !== null) {
+	paramC = LZString.decompressFromEncodedURIComponent(paramC)
+	editor.session.setValue(paramC)
 }
-else if (localStorage.getItem('codeStylus') !== null && path.includes('stylus')) {
+else if (localStorage.getItem('codeStylus') !== null && pp.hasAttribute('stylus')) {
 	editor.session.setValue(localStorage.getItem('codeStylus'))
 }
-else if (localStorage.getItem('codeLess') !== null && path.includes('less')) {
+else if (localStorage.getItem('codeLess') !== null && pp.hasAttribute('less')) {
 	editor.session.setValue(localStorage.getItem('codeLess'))
 }
-
+else if (localStorage.getItem('codeUsercss') !== null && pp.hasAttribute('usercss')) {
+	editor.session.setValue(localStorage.getItem('codeUsercss'))
+}
 //* length
 let lgth = document.getElementById('length')
 let lgth2 = document.getElementById('length2')
@@ -79,11 +84,14 @@ let editorL = () => {
 	lgth2.innerHTML = codeL(editor2)
 }
 
-//* lang
-if (path.includes('stylus')) {
-	editor.session.setMode('ace/mode/stylus', () => {
+let editorMode = (mode) => {
+	editor.session.setMode(mode, () => {
 		AceColorPicker.load(ace, editor)
 	})
+}
+//* lang
+if (pp.hasAttribute('stylus')) {
+	editorMode('ace/mode/stylus')
 	let update = () => {
 		new StylusRenderer(editor.getValue()).render((err, code) => {
 			if (err) {
@@ -93,16 +101,14 @@ if (path.includes('stylus')) {
 			}
 		})
 		localStorage.setItem('codeStylus', editor.getValue())
+		
 	}
-	editor.session.on('change', () => update())
 	update()
+	editor.session.on('change', () => {update(); url.searchParams.delete("c")
+	history.pushState({}, "", url)})
 }
-else if (path.includes('less')) {
-	editor.session.setMode('ace/mode/less', () => {
-		AceColorPicker.load(ace, editor)
-	})
-	// let version = document.getElementById('version')
-	// version.innerHTML = 'Less v' + less.version[0] + '.' + less.version[1] + '.' + less.version[2]
+else if (pp.hasAttribute('less')) {
+	editorMode('ace/mode/less')
 	let update = () => {
 		less.render(editor.getValue()).then((code) => {
 			editor2.session.setValue(code.css)
@@ -111,6 +117,22 @@ else if (path.includes('less')) {
 			editor2.session.setValue(String(err))
 		})
 		localStorage.setItem('codeLess', editor.getValue())
+	}
+	update()
+	editor.session.on('change', () => update())
+}
+else if (pp.hasAttribute('usercss')) {
+	editorMode('ace/mode/less')
+	editor2.session.setMode('ace/mode/json5')
+	//const usercssMeta = require('usercss-meta');
+	
+	let update = () => {
+		let usercss = usercssMeta.parse(editor.getValue())
+		editor2.session.setValue(JSON.stringify(usercss, null, '\t'))
+
+		//usercssMeta.parse(editor.getValue()).then((code))
+
+		localStorage.setItem('codeUsercss', editor.getValue())
 	}
 	update()
 	editor.session.on('change', () => update())
@@ -124,8 +146,9 @@ editor2.session.on('change', () => editorL())
 let share = document.getElementById('share')
 share.onclick = () => {
 	let decodeurl = LZString.compressToEncodedURIComponent(editor.getValue());
-	let link = window.location.origin + window.location.pathname + '?c=' + decodeurl
-	navigator.clipboard.writeText(link)
+	url.searchParams.set("c", decodeurl);
+	history.pushState({}, "", url);
+	navigator.clipboard.writeText(url)
 }
 
 //* save
@@ -138,7 +161,8 @@ const downloadToFile = (content, filename, contentType) => {
 	URL.revokeObjectURL(a.href)
 }
 let extension = 'styl'
-if (path.includes('less')) {extension = 'less'}
+if (pp.hasAttribute('less')) {extension = 'less'}
+else if (pp.hasAttribute('usercss')) {extension = 'user.css'}
 
 let saveLeft = () => downloadToFile(editor.getValue(), 'style.' + extension, 'text/plain;charset=UTF-8')
 document.getElementById('save').addEventListener('click', () => saveLeft())
@@ -163,14 +187,8 @@ editor2.commands.addCommands([{
 //* open in popup
 const popup = document.getElementById('popup')
 popup.onclick = () => window.open(window.location, 'mozillaWindow', 'popup')
-if (window.opener !== null) {
-	popup.classList.add('hide')
-}
+if (window.opener) popup.classList.add('hide')
 //* resizer
-let aceResize = () => {
-	editor.resize()
-	editor2.resize()
-}
 const left = document.getElementById('input')
 const right = document.getElementById('output')
 const resizeHandle = document.getElementById('resizer')
@@ -191,7 +209,6 @@ let startResizing = e => {
 	rw = size
 	left.style.width = 100 - rw + '%'
 	right.style.width = rw + '%'
-	aceResize()
 }
 let stopResizing = () => {
 	window.removeEventListener('mousemove', startResizing, false);
@@ -202,7 +219,5 @@ resizeHandle.addEventListener('mousedown', initialiseResize, false)
 resizeHandle.addEventListener('dblclick', () => {
 	right.style.width = ''
 	left.style.width = ''
-	aceResize()
 	window.localStorage.removeItem('resize')
 })
-aceResize()

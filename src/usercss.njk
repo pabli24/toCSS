@@ -1,0 +1,30 @@
+---
+title: UserCSS to CSS Compiler
+layout: 'base.njk'
+preprocessor: '/js/stylus-renderer.min.js'
+name: 'usercss'
+version: 'UserCSS metadata'
+docs: 'https://github.com/openstyles/stylus/wiki/Writing-UserCSS#usercss-metadata'
+---
+
+{% extends 'editor.njk' %} 
+{% block content %}
+/* ==UserStyle==
+@name         template
+@namespace    https://github.com/pabli24
+@version      1.0.0
+@description  A new userstyle
+@author       Pabli (https://github.com/pabli24)
+@homepageURL  https://github.com/pabli24
+@supportURL   https://github.com/pabli24
+@license      MIT
+@preprocessor stylus
+
+@var          checkbox che "Checkbox"  1
+@var          color    col "Color"     #fff
+@var          select   sel "Select"    ["sel1:Displayed", "Default*"]
+@var          text     txt "Text"      ''https://i.imgur.com''
+@var          number   num "Number"    [900, 850, null, 1, 'px']
+@var          range    ran "Range"     [16, 5, 30, 1, 'px']
+==/UserStyle== */
+{% endblock %}

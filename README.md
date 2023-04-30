@@ -1,4 +1,4 @@
-# <img src="src/img/logo.svg"  width="24" height="24"> Stylus & Less to CSS Converter - [pabli.dev/toCSS](https://pabli.dev/toCSS)
+# <img src="src/img/logo.svg"  width="24" height="24"> Stylus & Less to CSS  Compiler - [pabli.dev/toCSS](https://pabli.dev/toCSS)
 
 Dependecies
 ---
@@ -16,3 +16,11 @@ Build
 ```bash
 npm run build
 ```
+
+Todo
+---
+- [ ] Save editor settings in local storage
+- [ ] Setting to set compiling on save/change
+- [ ] UserCSS compiler
+- [ ] PostCSS compiler
+- [ ] Dart Sass compiler
