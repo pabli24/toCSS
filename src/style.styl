@@ -20,6 +20,10 @@ body
 	padding: 0
 	font-size: 1.6rem
 	overflow: hidden
+	height: 100vh
+	height: 100svh
+	display: flex
+	flex-direction: column
 
 pre
 	margin: 0
@@ -75,7 +79,6 @@ header
 #resizer
 	background-color: var(--bg)
 	width: 0.6rem
-	height: calc(100vh - 3rem)
 	cursor: col-resize
 	border-width: 0 1px
 	border-style: dashed
@@ -93,11 +96,11 @@ header
 			left: 0
 			top: 0
 
-.container
+#container
 	display: flex
+	flex-grow: 1
 
-.io
-	height: calc(100vh - 3rem)
+#input, #output
 	display: flex
 	flex-direction: column
 	width: 50%
@@ -113,7 +116,7 @@ header
 	justify-content: space-between
 	align-content: center
 	align-items: center
-	padding: 0.3rem
+	padding: 0.3rem 1rem
 
 .hide
 	display: none
@@ -217,3 +220,21 @@ footer
 	&:hover
 		background: rgba(128, 128, 128, 0.3)
 		border: 1px solid rgba(128, 128, 128, 0.5)
+
+@media screen and (max-width: 765px)
+	#container
+		flex-direction: column
+	#input, #output
+		width: 100% !important
+		height: 50%
+@media screen and (max-width: 470px)
+	#popup
+		display: none
+@media screen and (max-width: 380px)
+	#share
+		font-size: 0px
+		width: 24px
+		height: 24px
+@media screen and (max-width: 325px)
+	#share
+		display: none
