@@ -9,7 +9,7 @@ Dependecies
 Dev
 ---
 ```bash
-npm run dev:11ty & npm run dev:stylus
+npm run dev
 ```
 Build
 ---

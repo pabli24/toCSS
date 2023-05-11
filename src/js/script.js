@@ -44,9 +44,9 @@ settings.onclick = () => editor.showSettingsMenu()
 const settings2 = document.getElementById('settings2')
 settings2.onclick = () => editor2.showSettingsMenu()
 
-let StatusBar = ace.require('ace/ext/statusbar').StatusBar;
-let sb = new StatusBar(editor, document.getElementById('statusBar'))
-let sb2 = new StatusBar(editor2, document.getElementById('statusBar2'))
+let statusBar = ace.require('ace/ext/statusbar').StatusBar;
+let sb = new statusBar(editor, document.getElementById('statusBar'))
+let sb2 = new statusBar(editor2, document.getElementById('statusBar2'))
 
 let pp = document.getElementById('container')
 
@@ -101,7 +101,6 @@ if (pp.hasAttribute('stylus')) {
 			}
 		})
 		localStorage.setItem('codeStylus', editor.getValue())
-		
 	}
 	update()
 	editor.session.on('change', () => {update(); url.searchParams.delete("c")
@@ -125,13 +124,10 @@ else if (pp.hasAttribute('usercss')) {
 	editorMode('ace/mode/less')
 	editor2.session.setMode('ace/mode/json5')
 	//const usercssMeta = require('usercss-meta');
-	
 	let update = () => {
 		let usercss = usercssMeta.parse(editor.getValue())
 		editor2.session.setValue(JSON.stringify(usercss, null, '\t'))
-
 		//usercssMeta.parse(editor.getValue()).then((code))
-
 		localStorage.setItem('codeUsercss', editor.getValue())
 	}
 	update()
@@ -164,30 +160,69 @@ let extension = 'styl'
 if (pp.hasAttribute('less')) {extension = 'less'}
 else if (pp.hasAttribute('usercss')) {extension = 'user.css'}
 
-let saveLeft = () => downloadToFile(editor.getValue(), 'style.' + extension, 'text/plain;charset=UTF-8')
-document.getElementById('save').addEventListener('click', () => saveLeft())
+let saveInput = () => downloadToFile(editor.getValue(), 'style.' + extension, 'text/plain;charset=UTF-8')
+document.getElementById('save').addEventListener('click', () => saveInput())
 
 editor.commands.addCommands([{
 	name: 'saveFile',
 	bindKey: {win: 'Ctrl-s', mac: 'Ctrl-s'},
-	exec: () => saveLeft(),
+	exec: () => saveInput(),
 	readOnly: true
 }])
 
-let saveCSS = () => downloadToFile(editor2.getValue(), 'style.css', 'text/plain;charset=UTF-8')
-document.getElementById('save2').addEventListener('click', () => saveCSS())
+let saveOutput = () => downloadToFile(editor2.getValue(), 'style.css', 'text/plain;charset=UTF-8')
+document.getElementById('save2').addEventListener('click', () => saveOutput())
 
 editor2.commands.addCommands([{
 	name: 'saveFile',
 	bindKey: {win: 'Ctrl-s', mac: 'Ctrl-s'},
-	exec: () => saveCSS(),
+	exec: () => saveOutput(),
 	readOnly: true
 }])
 
 //* open in popup
 const popup = document.getElementById('popup')
+const pip = document.getElementById('pip')
 popup.onclick = () => window.open(window.location, 'mozillaWindow', 'popup')
-if (window.opener) popup.classList.add('hide')
+if (window.opener) {
+	popup.classList.add('hide')
+}
+// https://developer.chrome.com/docs/web-platform/document-picture-in-picture/
+// https://github.com/WICG/document-picture-in-picture
+if ('documentPictureInPicture' in window & !window.opener) {
+	// The Document Picture-in-Picture API is supported.
+	pip.classList.remove("hide")
+	pip.addEventListener("click", () => togglePictureInPicture())
+}
+async function togglePictureInPicture() {
+	// Close Picture-in-Picture window if any
+	if (documentPictureInPicture.window) {
+		documentPictureInPicture.window.close()
+		return
+	}
+	// Open a Picture-in-Picture window
+	const container = document.querySelector("#container")
+	const pipWindow = await documentPictureInPicture.requestWindow({
+		width: 820,
+		height: 380,
+		copyStyleSheets: true,
+	});
+	pipWindow.document.body.append(container)
+	// Title and icon
+	pipWindow.document.title = "Picture-in-Picture"
+	let link = pipWindow.document.createElement('link')
+	link.type = 'image/x-icon'
+	link.rel = 'shortcut icon'
+	link.href = '/img/picture-in-picture-fill.svg'
+	pipWindow.document.querySelector('head').appendChild(link)
+	// Listen for the PiP closing event to move the container back
+	pipWindow.addEventListener("unload", (event) => {
+		const body = document.querySelector("body")
+		const pipContainer = event.target.querySelector("#container")
+		body.append(pipContainer)
+	})
+}
+
 //* resizer
 const left = document.getElementById('input')
 const right = document.getElementById('output')

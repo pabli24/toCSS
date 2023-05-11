@@ -13,7 +13,7 @@ var StatusBar = function (editor, parentNode) {
     editor.on("changeSelection", statusUpdate);
     editor.on("keyboardActivity", statusUpdate);
 };
-(function () {
+(function() {
     this.updateStatus = function (editor) {
         var status = [];
         function add(str, separator) {
@@ -37,11 +37,11 @@ var StatusBar = function (editor, parentNode) {
 }).call(StatusBar.prototype);
 exports.StatusBar = StatusBar;
 
-});                (function() {
-                    ace.require(["ace/ext/statusbar"], function(m) {
-                        if (typeof module == "object" && typeof exports == "object" && module) {
-                            module.exports = m;
-                        }
-                    });
-                })();
-            
+});
+(function() {
+    ace.require(["ace/ext/statusbar"], function(m) {
+        if (typeof module == "object" && typeof exports == "object" && module) {
+            module.exports = m;
+        }
+    });
+})();
