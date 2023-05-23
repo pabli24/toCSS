@@ -16,7 +16,9 @@ let setting = {
 	autoScrollEditorIntoView: true,
 	scrollPastEnd: 1,
 	customScrollbar: true,
-	animatedScroll: true
+	animatedScroll: true,
+	useSvgGutterIcons: true,
+	showFoldedAnnotations: true
 }
 let editor = ace.edit('editor', setting)
 let editor2 = ace.edit('editor2', setting)
