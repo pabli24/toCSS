@@ -22,6 +22,9 @@ let setting = {
 }
 let editor = ace.edit('editor', setting)
 let editor2 = ace.edit('editor2', setting)
+if (localStorage.getItem('options')) {
+	loadOptions()
+}
 
 ace.require('ace/ext/settings_menu').init(editor)
 editor.commands.addCommands([{
@@ -29,6 +32,7 @@ editor.commands.addCommands([{
 	bindKey: {win: 'Ctrl-q', mac: 'Ctrl-q'},
 	exec: function(editor) {
 		editor.showSettingsMenu()
+		customOptions()
 	},
 	readOnly: true
 }])
@@ -38,14 +42,20 @@ editor2.commands.addCommands([{
 	bindKey: {win: 'Ctrl-q', mac: 'Ctrl-q'},
 	exec: function(editor2) {
 		editor2.showSettingsMenu()
+		customOptions()
 	},
 	readOnly: true
 }])
 const settings = document.getElementById('settings')
-settings.onclick = () => editor.showSettingsMenu()
+settings.onclick = () => {
+	editor.showSettingsMenu()
+	customOptions()
+}
 const settings2 = document.getElementById('settings2')
-settings2.onclick = () => editor2.showSettingsMenu()
-
+settings2.onclick = () => {
+	editor2.showSettingsMenu()
+	customOptions()
+}
 let statusBar = ace.require('ace/ext/statusbar').StatusBar;
 let sb = new statusBar(editor, document.getElementById('statusBar'))
 let sb2 = new statusBar(editor2, document.getElementById('statusBar2'))
@@ -86,9 +96,24 @@ let editorL = () => {
 	lgth2.innerHTML = codeL(editor2)
 }
 
+
+editor.commands.addCommands([{
+	name: 'colorPickerOn',
+	bindKey: {win: 'Ctrl-Alt-p', mac: 'Ctrl-Alt-p'},
+	exec: () => localStorage.setItem('colorPicker', '1'),
+	readOnly: true
+}])
+editor.commands.addCommands([{
+	name: 'colorPickerOff',
+	bindKey: {win: 'Ctrl-Alt-[', mac: 'Ctrl-Alt-['},
+	exec: () => localStorage.removeItem('colorPicker'),
+	readOnly: true
+}])
 let editorMode = (mode) => {
 	editor.session.setMode(mode, () => {
-		AceColorPicker.load(ace, editor)
+		if (localStorage.getItem('colorPicker') === '1') {
+			AceColorPicker.load(ace, editor)
+		}
 	})
 }
 //* lang
@@ -258,3 +283,42 @@ resizeHandle.addEventListener('dblclick', () => {
 	left.style.width = ''
 	window.localStorage.removeItem('resize')
 })
+
+//* Save Settings
+function saveOptions() {
+	let options = editor.getOptions();
+	let options2 = editor2.getOptions();
+	localStorage.setItem('options', JSON.stringify(options));
+	localStorage.setItem('options2', JSON.stringify(options2));
+}
+function resetOptions() {
+	localStorage.removeItem('options');
+	localStorage.removeItem('options2');
+}
+function loadOptions() {
+	let rawOptions = localStorage.getItem('options')
+	let rawOptions2 = localStorage.getItem('options2')
+	let options = JSON.parse(rawOptions);
+	let options2 = JSON.parse(rawOptions2);
+	editor.setOptions(options);
+	editor2.setOptions(options2);
+}
+function customOptions() {
+	let settingsMode = document.querySelector('#controls > tr:first-child');
+	settingsMode.classList.add('hide')
+
+	let settingsMenu = document.getElementById('controls')
+	let settingsMenuBtns = document.querySelectorAll('#controls button')
+	settingsMenu.addEventListener('change', saveOptions);
+	settingsMenuBtns.forEach((button) => {
+		button.addEventListener('click', saveOptions);
+	});
+
+	let button = document.createElement('button');
+	button.innerHTML = 'Reset Settings';
+	button.addEventListener('click', () => {
+		resetOptions();
+		location.reload();
+	});
+	settingsMenu.appendChild(button);
+}

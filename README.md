@@ -19,7 +19,7 @@ npm run build
 
 Todo
 ---
-- [ ] Save editor settings in local storage
+- [x] Save editor settings in local storage
 - [ ] Setting to set compiling on save/change
 - [ ] UserCSS compiler
 - [ ] PostCSS compiler
