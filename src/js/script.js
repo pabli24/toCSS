@@ -150,12 +150,17 @@ else if (pp.hasAttribute('less')) {
 else if (pp.hasAttribute('usercss')) {
 	editorMode('ace/mode/less')
 	editor2.session.setMode('ace/mode/json5')
-	//const usercssMeta = require('usercss-meta');
+
 	let update = () => {
-		let usercss = usercssMeta.parse(editor.getValue())
-		editor2.session.setValue(JSON.stringify(usercss, null, '\t'))
-		//usercssMeta.parse(editor.getValue()).then((code))
-		localStorage.setItem('codeUsercss', editor.getValue())
+		let code = editor.getValue()
+		try {
+			let metadata = usercssMeta.parse(code)
+			let jsonUserCss = JSON.stringify(metadata, null, '\t')
+			editor2.session.setValue(jsonUserCss)
+		} catch (err) {
+			editor2.session.setValue(String(err))
+		}
+		localStorage.setItem('codeUsercss', code)
 	}
 	update()
 	editor.session.on('change', () => update())
