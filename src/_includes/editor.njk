@@ -1,7 +1,7 @@
-<div id="container" {{ name }}>
+<div id="container" preprocessor="{{ name | lower }}">
 	<div id="input">
-		<pre id="editor" class="editor">{% block content %}{% endblock %}</pre>
-		<div id="statusBar" class="statusbar">
+		<pre id="input-editor" class="editor">{% block content %}{% endblock %}</pre>
+		<div id="input-statusbar" class="statusbar">
 			<span class="flex">
 				<span>Input (<a id="version" href="{{ docs }}" target="_blank" title="Check the documentation for {{ version }}">{{ version }}</a>) </span>
 				<button id="settings" class="flex icon" title="Settings (ctrl + q)">
@@ -20,8 +20,8 @@
 	<div id="resizer" title="Double click to center"></div>
 	<div id="output">
 		<noscript> Your browser doesn't support JavaScript or it's disabled.</noscript>
-		<pre id="editor2" class="editor"></pre>
-		<div id="statusBar2" class="statusbar">
+		<pre id="output-editor" class="editor"></pre>
+		<div id="output-statusbar" class="statusbar">
 			<span class="flex">
 				<span>Output (CSS) </span>
 				<button id="settings2" class="flex icon" title="Settings (ctrl + q)">

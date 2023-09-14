@@ -14,16 +14,11 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="{{ '/style.css' | url }}">
-	
-	<script src="{{ '/js/ace/src-min-noconflict/ace.js' | url }}"></script>
-	<script src="{{ '/js/ace/src-min-noconflict/theme-tomorrow_night_bright.js' | url }}"></script>
-	<script src="{{ '/js/ace/src-min-noconflict/ext-language_tools.js' | url }}"></script>
-	<script src="{{ '/js/ace/src-min-noconflict/ext-settings_menu.js' | url }}"></script>
-	<script src="{{ '/js/ace/sb/ext-statusbar2.js' | url }}"></script>
-	<link rel="stylesheet" href="{{ '/js/ace/cp/ace-colorpicker.css' | url }}">
-	<script src="{{ '/js/ace/cp/ace-colorpicker.min.js' | url }}"></script>
-
+	<link rel="preload" href="{{ '/js/script.js' | url }}" as="script" />
+	{% if preprocessor %}
 	<script src="{{ preprocessor | url }}"></script>
+	{% endif %}
+	
 
 	<script src="{{ '/js/lz-string.min.js' | url }}"></script>
 </head>

@@ -1,13 +1,23 @@
-<header class="flex">
-		<nav class="flex">
-			<a class="logo flex" href="{{ '/' | url }}"><img src="{{ '/img/logo.svg' | url }}"></a>
-			<a href="{{ '/stylus' | url }}">Stylus</a><span>&</span><a href="{{ '/less' | url }}">Less</a>
-			<span>to CSS Compiler</span>
-		</nav>
-		<nav class="flex">
+<header>
+	<a class="logo flex" href="{{ '/' | url }}"><img height="25" src="{{ '/img/logo.svg' | url }}"></a>
+	<span class="title-mobile">to CSS Compiler</span>
+	<input id="menu-toggle" type="checkbox" />
+	<label class='menu-button-container' for="menu-toggle">
+		<div class='menu-button'></div>
+	</label>
+	<nav class="menu">
+		<div class="preprocessors">
+			<a href="{{ '/stylus' | url }}" class="flex"><img height="14" src="{{ '/img/logo-stylus.svg' | url }}" />Stylus</a>
+			<a href="{{ '/less' | url }}" class="flex"><img height="14" src="{{ '/img/logo-less.svg' | url }}" />Less</a>
+			<a href="{{ '/scss' | url }}" class="flex"><img height="14" src="{{ '/img/logo-sass.svg' | url }}" />Scss</a>
+			<a href="{{ '/sass' | url }}" class="flex"><img height="14" src="{{ '/img/logo-sass.svg' | url }}" />Sass</a>
+			<span class="title">to CSS Compiler</span>
+		</div>
+		<div class="settings">
 			<button id="pip" class="flex hide" title="Experimental Picture-in-Picture"><img src="{{ '/img/flask-fill.svg' | url }}" />PiP</button>
 			<button id="popup" class="flex" title="Open in Popup"><img src="{{ '/img/picture-in-picture-fill.svg' | url }}" />Popup</button>
 			<button id="share" class="flex" title="Copy url to clipboard"><img src="{{ '/img/share-fill.svg' | url }}" />Share</button>
 			<a href="https://github.com/pabli24/toCSS" target="_blank" title="See on GitHub" class="flex"><img src="{{ '/img/github-fill.svg' | url }}" /></a>
-		</nav>
+		</div>
+	</nav>
 </header>

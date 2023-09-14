@@ -1,7 +1,80 @@
-'use strict'
+'use strict';
+/*global LZString, StylusRenderer, less, usercssMeta, documentPictureInPicture*/
 
-//* ace editor settings
-let setting = {
+import ace from 'ace-builds/src-noconflict/ace.js';
+// import 'ace-builds/esm-resolver';
+
+import 'ace-builds/src-noconflict/ext-language_tools.js';
+import 'ace-builds/src-noconflict/ext-settings_menu.js';
+import 'ace-builds/src-noconflict/ext-searchbox.js';
+import 'ace-builds/src-noconflict/ext-keybinding_menu.js';
+import 'ace-builds/src-noconflict/ext-prompt.js';
+
+import 'ace-builds/src-noconflict/snippets/css.js';
+
+import 'ace-builds/src-noconflict/mode-json5.js';
+import 'ace-builds/src-noconflict/mode-css.js';
+import 'ace-builds/src-noconflict/mode-stylus.js';
+import 'ace-builds/src-noconflict/mode-less.js';
+import 'ace-builds/src-noconflict/mode-sass.js';
+import 'ace-builds/src-noconflict/mode-scss.js';
+
+import 'ace-builds/src-noconflict/keybinding-emacs.js';
+import 'ace-builds/src-noconflict/keybinding-sublime.js';
+import 'ace-builds/src-noconflict/keybinding-vim.js';
+import 'ace-builds/src-noconflict/keybinding-vscode.js';
+
+import 'ace-builds/src-noconflict/theme-ambiance.js';
+import 'ace-builds/src-noconflict/theme-chaos.js';
+import 'ace-builds/src-noconflict/theme-chrome.js';
+import 'ace-builds/src-noconflict/theme-cloud9_day.js';
+import 'ace-builds/src-noconflict/theme-cloud9_night.js';
+import 'ace-builds/src-noconflict/theme-cloud9_night_low_color.js';
+import 'ace-builds/src-noconflict/theme-clouds.js';
+import 'ace-builds/src-noconflict/theme-clouds_midnight.js';
+import 'ace-builds/src-noconflict/theme-cobalt.js';
+import 'ace-builds/src-noconflict/theme-crimson_editor.js';
+import 'ace-builds/src-noconflict/theme-dawn.js';
+import 'ace-builds/src-noconflict/theme-dracula.js';
+import 'ace-builds/src-noconflict/theme-dreamweaver.js';
+import 'ace-builds/src-noconflict/theme-eclipse.js';
+import 'ace-builds/src-noconflict/theme-github.js';
+import 'ace-builds/src-noconflict/theme-github_dark.js';
+import 'ace-builds/src-noconflict/theme-gob.js';
+import 'ace-builds/src-noconflict/theme-gruvbox.js';
+import 'ace-builds/src-noconflict/theme-gruvbox_dark_hard.js';
+import 'ace-builds/src-noconflict/theme-gruvbox_light_hard.js';
+import 'ace-builds/src-noconflict/theme-idle_fingers.js';
+import 'ace-builds/src-noconflict/theme-iplastic.js';
+import 'ace-builds/src-noconflict/theme-katzenmilch.js';
+import 'ace-builds/src-noconflict/theme-kr_theme.js';
+import 'ace-builds/src-noconflict/theme-kuroir.js';
+import 'ace-builds/src-noconflict/theme-merbivore.js';
+import 'ace-builds/src-noconflict/theme-merbivore_soft.js';
+import 'ace-builds/src-noconflict/theme-mono_industrial.js';
+import 'ace-builds/src-noconflict/theme-monokai.js';
+import 'ace-builds/src-noconflict/theme-nord_dark.js';
+import 'ace-builds/src-noconflict/theme-one_dark.js';
+import 'ace-builds/src-noconflict/theme-pastel_on_dark.js';
+import 'ace-builds/src-noconflict/theme-solarized_dark.js';
+import 'ace-builds/src-noconflict/theme-solarized_light.js';
+import 'ace-builds/src-noconflict/theme-sqlserver.js';
+import 'ace-builds/src-noconflict/theme-terminal.js';
+import 'ace-builds/src-noconflict/theme-textmate.js';
+import 'ace-builds/src-noconflict/theme-tomorrow.js';
+import 'ace-builds/src-noconflict/theme-tomorrow_night.js';
+import 'ace-builds/src-noconflict/theme-tomorrow_night_blue.js';
+import 'ace-builds/src-noconflict/theme-tomorrow_night_bright.js';
+import 'ace-builds/src-noconflict/theme-tomorrow_night_eighties.js';
+import 'ace-builds/src-noconflict/theme-twilight.js';
+import 'ace-builds/src-noconflict/theme-vibrant_ink.js';
+import 'ace-builds/src-noconflict/theme-xcode.js';
+
+import './ext-statusbar2.js';
+
+import * as sass from 'sass';
+
+let aceEditorSetting = {
 	theme: 'ace/theme/tomorrow_night_bright',
 	mode: 'ace/mode/css',
 	fontSize: 16,
@@ -18,107 +91,100 @@ let setting = {
 	customScrollbar: true,
 	animatedScroll: true,
 	useSvgGutterIcons: true,
-	showFoldedAnnotations: true
-}
-let editor = ace.edit('editor', setting)
-let editor2 = ace.edit('editor2', setting)
+	showFoldedAnnotations: true,
+	fadeFoldWidgets: true,
+	enableSnippets: true,
+	useWorker: true
+};
+
+let editor = ace.edit('input-editor', aceEditorSetting);
+let editor2 = ace.edit('output-editor', aceEditorSetting);
+editor2.setOptions({
+	readOnly: true
+});
+
 if (localStorage.getItem('options')) {
-	loadOptions()
+	loadOptions();
 }
 
-ace.require('ace/ext/settings_menu').init(editor)
+ace.require('ace/ext/settings_menu').init(editor);
 editor.commands.addCommands([{
 	name: 'showSettingsMenu',
 	bindKey: {win: 'Ctrl-q', mac: 'Ctrl-q'},
 	exec: function(editor) {
-		editor.showSettingsMenu()
-		customOptions()
+		editor.showSettingsMenu();
+		customOptions();
 	},
 	readOnly: true
-}])
-ace.require('ace/ext/settings_menu').init(editor2)
+}]);
+
+ace.require('ace/ext/settings_menu').init(editor2);
 editor2.commands.addCommands([{
 	name: 'showSettingsMenu',
 	bindKey: {win: 'Ctrl-q', mac: 'Ctrl-q'},
 	exec: function(editor2) {
-		editor2.showSettingsMenu()
-		customOptions()
+		editor2.showSettingsMenu();
+		customOptions();
 	},
 	readOnly: true
-}])
-const settings = document.getElementById('settings')
-settings.onclick = () => {
-	editor.showSettingsMenu()
-	customOptions()
-}
-const settings2 = document.getElementById('settings2')
-settings2.onclick = () => {
-	editor2.showSettingsMenu()
-	customOptions()
-}
-let statusBar = ace.require('ace/ext/statusbar').StatusBar;
-let sb = new statusBar(editor, document.getElementById('statusBar'))
-let sb2 = new statusBar(editor2, document.getElementById('statusBar2'))
+}]);
 
-let pp = document.getElementById('container')
+const settings = document.getElementById('settings');
+
+settings.onclick = () => {
+	editor.showSettingsMenu();
+	customOptions();
+};
+
+const settings2 = document.getElementById('settings2');
+
+settings2.onclick = () => {
+	editor2.showSettingsMenu();
+	customOptions();
+};
+
+let statusBar = ace.require('ace/ext/statusbar2').StatusBar;
+new statusBar(editor, document.getElementById('input-statusbar'));
+new statusBar(editor2, document.getElementById('output-statusbar'));
 
 let url = new URL(location);
-let params = url.searchParams
-let paramCode = params.get('code')
-let paramC = params.get('c')
-// let params = new URLSearchParams(document.location.search);
+let params = url.searchParams;
+let paramCode = params.get('code');
+let paramC = params.get('c');
+
+let preprocessor = document.getElementById('container').getAttribute('preprocessor');
 
 if (paramCode !== null) {
-	editor.session.setValue(paramCode)
+	editor.session.setValue(paramCode);
 }
 else if (paramC !== null) {
-	paramC = LZString.decompressFromEncodedURIComponent(paramC)
-	editor.session.setValue(paramC)
+	paramC = LZString.decompressFromEncodedURIComponent(paramC);
+	editor.session.setValue(paramC);
 }
-else if (localStorage.getItem('codeStylus') !== null && pp.hasAttribute('stylus')) {
-	editor.session.setValue(localStorage.getItem('codeStylus'))
+else if (localStorage.getItem('codeStylus') !== null && preprocessor === 'stylus') {
+	editor.session.setValue(localStorage.getItem('codeStylus'));
 }
-else if (localStorage.getItem('codeLess') !== null && pp.hasAttribute('less')) {
-	editor.session.setValue(localStorage.getItem('codeLess'))
+else if (localStorage.getItem('codeLess') !== null && preprocessor === 'less') {
+	editor.session.setValue(localStorage.getItem('codeLess'));
 }
-else if (localStorage.getItem('codeUsercss') !== null && pp.hasAttribute('usercss')) {
-	editor.session.setValue(localStorage.getItem('codeUsercss'))
+else if (localStorage.getItem('codeScss') !== null && preprocessor === 'scss') {
+	editor.session.setValue(localStorage.getItem('codeScss'));
 }
-//* length
-let lgth = document.getElementById('length')
-let lgth2 = document.getElementById('length2')
-const codeL = e => {
-	e = new TextEncoder().encode(e.getValue()).length
-	return new Intl.NumberFormat().format(e)
+else if (localStorage.getItem('codeSass') !== null && preprocessor === 'sass') {
+	editor.session.setValue(localStorage.getItem('codeSass'));
 }
-let editorL = () => {
-	lgth.innerHTML = codeL(editor)
-	lgth2.innerHTML = codeL(editor2)
+else if (localStorage.getItem('codeUsercss') !== null && preprocessor === 'usercss') {
+	editor.session.setValue(localStorage.getItem('codeUsercss'));
 }
 
-
-editor.commands.addCommands([{
-	name: 'colorPickerOn',
-	bindKey: {win: 'Ctrl-Alt-p', mac: 'Ctrl-Alt-p'},
-	exec: () => localStorage.setItem('colorPicker', '1'),
-	readOnly: true
-}])
-editor.commands.addCommands([{
-	name: 'colorPickerOff',
-	bindKey: {win: 'Ctrl-Alt-[', mac: 'Ctrl-Alt-['},
-	exec: () => localStorage.removeItem('colorPicker'),
-	readOnly: true
-}])
-let editorMode = (mode) => {
-	editor.session.setMode(mode, () => {
-		if (localStorage.getItem('colorPicker') === '1') {
-			AceColorPicker.load(ace, editor)
-		}
-	})
-}
 //* lang
-if (pp.hasAttribute('stylus')) {
-	editorMode('ace/mode/stylus')
+function editorMode(mode) {
+	editor.session.setMode(mode);
+}
+
+if (preprocessor === 'stylus') {
+	editorMode('ace/mode/stylus');
+
 	let update = () => {
 		new StylusRenderer(editor.getValue()).render((err, code) => {
 			if (err) {
@@ -126,204 +192,334 @@ if (pp.hasAttribute('stylus')) {
 			} else {
 				editor2.session.setValue(code);
 			}
-		})
-		localStorage.setItem('codeStylus', editor.getValue())
-	}
-	update()
-	editor.session.on('change', () => {update(); url.searchParams.delete("c")
-	history.pushState({}, "", url)})
+		});
+		localStorage.setItem('codeStylus', editor.getValue());
+	};
+
+	update();
+	editor.session.on('change', () => update());
+	deleteSearchParamsOnChange();
 }
-else if (pp.hasAttribute('less')) {
-	editorMode('ace/mode/less')
+else if (preprocessor === 'less') {
+	editorMode('ace/mode/less');
+	lessVersion();
+
 	let update = () => {
 		less.render(editor.getValue()).then((code) => {
-			editor2.session.setValue(code.css)
+			editor2.session.setValue(code.css);
 		},
 		(err) => {
-			editor2.session.setValue(String(err))
-		})
-		localStorage.setItem('codeLess', editor.getValue())
-	}
-	update()
-	editor.session.on('change', () => update())
+			editor2.session.setValue(String(err));
+		});
+		localStorage.setItem('codeLess', editor.getValue());
+	};
+
+	update();
+	editor.session.on('change', () => update());
+	deleteSearchParamsOnChange();
 }
-else if (pp.hasAttribute('usercss')) {
-	editorMode('ace/mode/less')
-	editor2.session.setMode('ace/mode/json5')
+else if (preprocessor === 'scss') {
+	editorMode('ace/mode/scss');
+	sassVersion();
 
 	let update = () => {
-		let code = editor.getValue()
+		let code = editor.getValue();
 		try {
-			let metadata = usercssMeta.parse(code)
-			let jsonUserCss = JSON.stringify(metadata, null, '\t')
-			editor2.session.setValue(jsonUserCss)
+			let scss = sass.compileString(code, {syntax: 'scss'});
+			editor2.session.setValue(scss.css);
 		} catch (err) {
-			editor2.session.setValue(String(err))
+			editor2.session.setValue(String(err));
 		}
-		localStorage.setItem('codeUsercss', code)
-	}
-	update()
-	editor.session.on('change', () => update())
+		localStorage.setItem('codeScss', editor.getValue());
+	};
+
+	update();
+	editor.session.on('change', () => update());
+	deleteSearchParamsOnChange();
 }
-//* size
-editorL()
-editor.session.on('change', () => editorL())
-editor2.session.on('change', () => editorL())
+else if (preprocessor === 'sass') {
+	sassVersion();
+	editorMode('ace/mode/sass');
+
+	let update = () => {
+		let code = editor.getValue();
+		try {
+			let sassCode = sass.compileString(code, {syntax: 'indented'});
+			editor2.session.setValue(sassCode.css);
+		} catch (err) {
+			editor2.session.setValue(String(err));
+		}
+		localStorage.setItem('codeSass', editor.getValue());
+	};
+
+	update();
+	editor.session.on('change', () => update());
+	deleteSearchParamsOnChange();
+}
+else if (preprocessor === 'usercss') {
+	editorMode('ace/mode/less');
+	editor2.session.setMode('ace/mode/json5');
+
+	let update = () => {
+		let code = editor.getValue();
+		try {
+			let metadata = usercssMeta.parse(code);
+			let jsonUserCss = JSON.stringify(metadata, null, '\t');
+			editor2.session.setValue(jsonUserCss);
+		} catch (err) {
+			editor2.session.setValue(String(err));
+		}
+		localStorage.setItem('codeUsercss', code);
+	};
+
+	update();
+	editor.session.on('change', () => update());
+	deleteSearchParamsOnChange();
+}
+
+function deleteSearchParamsOnChange() {
+	editor.session.on('change', () => {
+		url.searchParams.delete('c');
+		history.pushState({}, '', url);
+	});
+}
+
+function lessVersion() {
+	const version = less.version.join('.');
+	document.getElementById('version').innerText += ' v' +  version;
+}
+
+function sassVersion() {
+	const version = sass.info.split('\t')[1];
+	document.getElementById('version').innerText += ' v' +  version;
+}
+
+//* length
+let lengthStatusBar = document.getElementById('length');
+let lengthStatusBar2 = document.getElementById('length2');
+
+function codeLength(e) {
+	e = new TextEncoder().encode(e.getValue()).length;
+	return new Intl.NumberFormat().format(e);
+}
+
+function updateLengthStatusBar() {
+	lengthStatusBar.innerHTML = codeLength(editor);
+	lengthStatusBar2.innerHTML = codeLength(editor2);
+}
+
+updateLengthStatusBar();
+editor.session.on('change', () => updateLengthStatusBar());
+editor2.session.on('change', () => updateLengthStatusBar());
 
 //* share
-let share = document.getElementById('share')
+let share = document.getElementById('share');
+
 share.onclick = () => {
 	let decodeurl = LZString.compressToEncodedURIComponent(editor.getValue());
-	url.searchParams.set("c", decodeurl);
-	history.pushState({}, "", url);
-	navigator.clipboard.writeText(url)
-}
+	url.searchParams.set('c', decodeurl);
+	history.pushState({}, '', url);
+	navigator.clipboard.writeText(url);
+};
 
 //* save
 const downloadToFile = (content, filename, contentType) => {
-	const a = document.createElement('a')
-	const file = new Blob([content], {type: contentType})
-	a.href= URL.createObjectURL(file)
-	a.download = filename
-	a.click()
-	URL.revokeObjectURL(a.href)
-}
-let extension = 'styl'
-if (pp.hasAttribute('less')) {extension = 'less'}
-else if (pp.hasAttribute('usercss')) {extension = 'user.css'}
+	const a = document.createElement('a');
+	const file = new Blob([content], {type: contentType});
+	a.href= URL.createObjectURL(file);
+	a.download = filename;
+	a.click();
+	URL.revokeObjectURL(a.href);
+};
 
-let saveInput = () => downloadToFile(editor.getValue(), 'style.' + extension, 'text/plain;charset=UTF-8')
-document.getElementById('save').addEventListener('click', () => saveInput())
+let fileExtension = preprocessor;
+if (fileExtension === 'usercss') fileExtension = 'user.css';
+
+let saveInput = () => downloadToFile(editor.getValue(), 'style.' + fileExtension, 'text/plain;charset=UTF-8');
+document.getElementById('save').addEventListener('click', () => saveInput());
 
 editor.commands.addCommands([{
 	name: 'saveFile',
 	bindKey: {win: 'Ctrl-s', mac: 'Ctrl-s'},
 	exec: () => saveInput(),
 	readOnly: true
-}])
+}]);
 
-let saveOutput = () => downloadToFile(editor2.getValue(), 'style.css', 'text/plain;charset=UTF-8')
-document.getElementById('save2').addEventListener('click', () => saveOutput())
+let saveOutput = () => downloadToFile(editor2.getValue(), 'style.css', 'text/plain;charset=UTF-8');
+document.getElementById('save2').addEventListener('click', () => saveOutput());
 
 editor2.commands.addCommands([{
 	name: 'saveFile',
 	bindKey: {win: 'Ctrl-s', mac: 'Ctrl-s'},
 	exec: () => saveOutput(),
 	readOnly: true
-}])
+}]);
 
 //* open in popup
-const popup = document.getElementById('popup')
-const pip = document.getElementById('pip')
-popup.onclick = () => window.open(window.location, 'mozillaWindow', 'popup')
+const popup = document.getElementById('popup');
+const pip = document.getElementById('pip');
+
+popup.onclick = () => window.open(window.location, 'mozillaWindow', 'popup');
+
 if (window.opener) {
-	popup.classList.add('hide')
+	popup.classList.add('hide');
 }
 // https://developer.chrome.com/docs/web-platform/document-picture-in-picture/
 // https://github.com/WICG/document-picture-in-picture
 if ('documentPictureInPicture' in window & !window.opener) {
 	// The Document Picture-in-Picture API is supported.
-	pip.classList.remove("hide")
-	pip.addEventListener("click", () => togglePictureInPicture())
+	pip.classList.remove('hide');
+	pip.addEventListener('click', () => togglePictureInPicture());
 }
 async function togglePictureInPicture() {
 	// Close Picture-in-Picture window if any
 	if (documentPictureInPicture.window) {
-		documentPictureInPicture.window.close()
-		return
+		documentPictureInPicture.window.close();
+
+		return;
 	}
 	// Open a Picture-in-Picture window
-	const container = document.querySelector("#container")
+	const container = document.querySelector('#container');
 	const pipWindow = await documentPictureInPicture.requestWindow({
 		width: 820,
-		height: 380,
-		copyStyleSheets: true,
+		height: 380
 	});
-	pipWindow.document.body.append(container)
+	// Copy style sheets over from the initial document
+	// so that the player looks the same.
+	[...document.styleSheets].forEach((styleSheet) => {
+		try {
+			const cssRules = [...styleSheet.cssRules].map((rule) => rule.cssText).join('');
+			const style = document.createElement('style');
+
+			style.textContent = cssRules;
+			pipWindow.document.head.appendChild(style);
+		} catch (e) {
+			const link = document.createElement('link');
+
+			link.rel = 'stylesheet';
+			link.type = styleSheet.type;
+			link.media = styleSheet.media;
+			link.href = styleSheet.href;
+			pipWindow.document.head.appendChild(link);
+		}
+	});
+
+	pipWindow.document.body.append(container);
 	// Title and icon
-	pipWindow.document.title = "Picture-in-Picture"
-	let link = pipWindow.document.createElement('link')
-	link.type = 'image/x-icon'
-	link.rel = 'shortcut icon'
-	link.href = '/img/picture-in-picture-fill.svg'
-	pipWindow.document.querySelector('head').appendChild(link)
+	pipWindow.document.title = 'Picture-in-Picture';
+	let link = pipWindow.document.createElement('link');
+	link.type = 'image/x-icon';
+	link.rel = 'shortcut icon';
+	link.href = '/img/picture-in-picture-fill.svg';
+	pipWindow.document.querySelector('head').appendChild(link);
 	// Listen for the PiP closing event to move the container back
-	pipWindow.addEventListener("unload", (event) => {
-		const body = document.querySelector("body")
-		const pipContainer = event.target.querySelector("#container")
-		body.append(pipContainer)
-	})
+	pipWindow.addEventListener('unload', (event) => {
+		const body = document.querySelector('body');
+		const pipContainer = event.target.querySelector('#container');
+		body.append(pipContainer);
+	});
 }
 
 //* resizer
-const left = document.getElementById('input')
-const right = document.getElementById('output')
-const resizeHandle = document.getElementById('resizer')
-let rw
+const leftEditor = document.getElementById('input');
+const rightEditor = document.getElementById('output');
+const resizeHandle = document.getElementById('resizer');
+let rw;
+
 if (localStorage.getItem('resize') !== null) {
-	rw = localStorage.getItem('resize')
-	left.style.width = 100 - rw + '%'
-	right.style.width = rw + '%'
+	rw = localStorage.getItem('resize');
+	leftEditor.style.width = 100 - rw + '%';
+	rightEditor.style.width = rw + '%';
 }
-let initialiseResize = () => {
-	window.addEventListener('mousemove', startResizing, false)
-	window.addEventListener('mouseup', stopResizing, false)
+
+let windowPip = window;
+
+function initialiseResize() {
+	windowPip = documentPictureInPicture.window || window;
+	
+	windowPip.addEventListener('mousemove', startResizing, false);
+	windowPip.addEventListener('mouseup', stopResizing, false);
 }
-let startResizing = e => {
-	let size = (window.innerWidth - e.clientX ) / window.innerWidth * 100
-	if (size > 99.8) size = 100
-	if (size < 0.2) size = 0
-	rw = size
-	left.style.width = 100 - rw + '%'
-	right.style.width = rw + '%'
+
+function startResizing(e) {
+	let size = (windowPip.innerWidth - e.clientX ) / windowPip.innerWidth * 100;
+
+	if (size > 99.8) size = 100;
+	if (size < 0.2) size = 0;
+
+	rw = size;
+	leftEditor.style.width = 100 - rw + '%';
+	rightEditor.style.width = rw + '%';
 }
-let stopResizing = () => {
-	window.removeEventListener('mousemove', startResizing, false);
-	window.removeEventListener('mouseup', stopResizing, false);
+
+function stopResizing() {
+	windowPip.removeEventListener('mousemove', startResizing, false);
+	windowPip.removeEventListener('mouseup', stopResizing, false);
+
+	editor.resize();
+	editor2.resize();
+
 	localStorage.setItem('resize', rw);
 }
-resizeHandle.addEventListener('mousedown', initialiseResize, false)
+
+resizeHandle.addEventListener('mousedown', initialiseResize, false);
+
 resizeHandle.addEventListener('dblclick', () => {
-	right.style.width = ''
-	left.style.width = ''
-	window.localStorage.removeItem('resize')
-})
+	rightEditor.style.width = '';
+	leftEditor.style.width = '';
+
+	editor.resize();
+	editor2.resize();
+
+	window.localStorage.removeItem('resize');
+});
 
 //* Save Settings
 function saveOptions() {
 	let options = editor.getOptions();
 	let options2 = editor2.getOptions();
+
 	localStorage.setItem('options', JSON.stringify(options));
 	localStorage.setItem('options2', JSON.stringify(options2));
 }
+
 function resetOptions() {
 	localStorage.removeItem('options');
 	localStorage.removeItem('options2');
 }
+
 function loadOptions() {
-	let rawOptions = localStorage.getItem('options')
-	let rawOptions2 = localStorage.getItem('options2')
+	let rawOptions = localStorage.getItem('options');
+	let rawOptions2 = localStorage.getItem('options2');
+
 	let options = JSON.parse(rawOptions);
 	let options2 = JSON.parse(rawOptions2);
+
 	editor.setOptions(options);
 	editor2.setOptions(options2);
 }
+
 function customOptions() {
 	let settingsMode = document.querySelector('#controls > tr:first-child');
-	settingsMode.classList.add('hide')
+	settingsMode.classList.add('hide');
 
-	let settingsMenu = document.getElementById('controls')
-	let settingsMenuBtns = document.querySelectorAll('#controls button')
+	let settingsMenu = document.getElementById('controls');
+	let settingsMenuBtns = document.querySelectorAll('#controls button');
+
 	settingsMenu.addEventListener('change', saveOptions);
 	settingsMenuBtns.forEach((button) => {
 		button.addEventListener('click', saveOptions);
 	});
 
 	let button = document.createElement('button');
-	button.innerHTML = 'Reset Settings';
+
+	button.innerHTML = 'Default settings';
+	button.title = 'Restore default settings for input and output editors';
+
 	button.addEventListener('click', () => {
 		resetOptions();
 		location.reload();
 	});
+
 	settingsMenu.appendChild(button);
 }
