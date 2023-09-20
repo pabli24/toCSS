@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
-    "ace-builds": "^1.24.2",
+    "ace-builds": "^1.27.0",
     "less": "^4.2.0",
     "lz-string": "^1.5.0",
-    "sass": "^1.66.1",
+    "sass": "^1.67.0",
     "stylus-lang-bundle": "^0.58.1",
     "usercss-meta": "^0.12.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
     "concurrently": "^8.2.1",
-    "esbuild": "^0.19.2",
+    "esbuild": "^0.19.3",
     "eslint": "^8.49.0"
   },
   "scripts": {

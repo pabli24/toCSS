@@ -1,4 +1,6 @@
-# <img src="src/img/logo.svg"  width="24" height="24"> Stylus & Less to CSS  Compiler - [pabli.dev/toCSS](https://pabli.dev/toCSS)
+# <img src="src/img/logo.svg"  width="24" height="24"> Stylus/Less/Sass/Scss to CSS  Compiler
+
+[pabli.dev/toCSS](https://pabli.dev/toCSS)
 
 Dependecies
 ---
