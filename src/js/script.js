@@ -111,8 +111,8 @@ ace.require('ace/ext/settings_menu').init(editor);
 editor.commands.addCommands([{
 	name: 'showSettingsMenu',
 	bindKey: {win: 'Ctrl-q', mac: 'Ctrl-q'},
-	exec: function(editor) {
-		editor.showSettingsMenu();
+	exec: function(a) {
+		a.showSettingsMenu();
 		customOptions();
 	},
 	readOnly: true
@@ -143,9 +143,12 @@ settings2.onclick = () => {
 	customOptions();
 };
 
+let inputStatusbar = document.getElementById('input-statusbar');
+let outputStatusbar = document.getElementById('output-statusbar');
 let statusBar = ace.require('ace/ext/statusbar2').StatusBar;
-new statusBar(editor, document.getElementById('input-statusbar'));
-new statusBar(editor2, document.getElementById('output-statusbar'));
+
+new statusBar(editor, inputStatusbar);
+new statusBar(editor2, outputStatusbar);
 
 let url = new URL(location);
 let params = url.searchParams;
@@ -332,8 +335,17 @@ const downloadToFile = (content, filename, contentType) => {
 	URL.revokeObjectURL(a.href);
 };
 
-let fileExtension = preprocessor;
-if (fileExtension === 'usercss') fileExtension = 'user.css';
+let fileExtension;
+switch(preprocessor) {
+	case 'stylus': 
+		fileExtension = 'styl';
+		break;
+	case 'usercss':
+		fileExtension = 'user.css';
+		break;
+	default:
+		fileExtension = preprocessor;
+}
 
 let saveInput = () => downloadToFile(editor.getValue(), 'style.' + fileExtension, 'text/plain;charset=UTF-8');
 document.getElementById('save').addEventListener('click', () => saveInput());
@@ -366,10 +378,13 @@ if (window.opener) {
 }
 // https://developer.chrome.com/docs/web-platform/document-picture-in-picture/
 // https://github.com/WICG/document-picture-in-picture
+
 if ('documentPictureInPicture' in window & !window.opener) {
 	// The Document Picture-in-Picture API is supported.
 	pip.classList.remove('hide');
 	pip.addEventListener('click', () => togglePictureInPicture());
+
+	// windowPip = documentPictureInPicture.window;
 }
 async function togglePictureInPicture() {
 	// Close Picture-in-Picture window if any
@@ -435,7 +450,9 @@ if (localStorage.getItem('resize') !== null) {
 let windowPip = window;
 
 function initialiseResize() {
-	windowPip = documentPictureInPicture.window || window;
+	if ('documentPictureInPicture' in window) {
+		windowPip = documentPictureInPicture.window ?? window;
+	}
 	
 	windowPip.addEventListener('mousemove', startResizing, false);
 	windowPip.addEventListener('mouseup', stopResizing, false);
