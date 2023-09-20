@@ -1,5 +1,14 @@
 module.exports = function(eleventyConfig) {
 
+	eleventyConfig.setServerOptions({
+		// https://www.11ty.dev/docs/dev-server/#options
+		// https://github.com/FiloSottile/mkcert
+		https: {
+			key: "./localhost-key.pem",
+			cert: "./localhost.pem",
+		},
+	});
+
 	eleventyConfig.addPassthroughCopy('./src/img');
 
 	eleventyConfig.addPassthroughCopy({
@@ -21,5 +30,5 @@ module.exports = function(eleventyConfig) {
 			input: "src",
 			output: "dist",
 		}
-	}
+	};
 }
