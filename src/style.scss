@@ -335,9 +335,12 @@ button {
 	img {
 		filter: drop-shadow(.5rem .5rem 2rem black);
 		vertical-align: middle;
+		width: auto;
+		max-width: 100%;
 	}
 	h1 {
 		font-size: 5rem;
+		text-align: center;
 		margin: 0;
 		padding: 0;
 	}
@@ -347,10 +350,9 @@ button {
 		align-items: center;
 		flex-wrap: wrap;
 		flex-direction: column;
-		padding: 5rem;
-		border-radius: 3rem 5rem;
 		section {
 			display: flex;
+			justify-content: center;
 		}
 		ul {
 			list-style: none;
