@@ -27,6 +27,8 @@ import 'ace-builds/src-noconflict/keybinding-vscode.js';
 import 'ace-builds/src-noconflict/theme-ambiance.js';
 import 'ace-builds/src-noconflict/theme-chaos.js';
 import 'ace-builds/src-noconflict/theme-chrome.js';
+import 'ace-builds/src-noconflict/theme-cloud_editor_dark.js';
+import 'ace-builds/src-noconflict/theme-cloud_editor.js';
 import 'ace-builds/src-noconflict/theme-cloud9_day.js';
 import 'ace-builds/src-noconflict/theme-cloud9_night.js';
 import 'ace-builds/src-noconflict/theme-cloud9_night_low_color.js';
