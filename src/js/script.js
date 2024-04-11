@@ -371,7 +371,6 @@ editor2.commands.addCommands([{
 
 //* open in popup
 const popup = document.getElementById('popup');
-const pip = document.getElementById('pip');
 
 popup.onclick = () => window.open(window.location, 'mozillaWindow', 'popup');
 
@@ -379,64 +378,6 @@ const isInStandaloneMode = (window.matchMedia('(display-mode: standalone)').matc
 
 if (!window.opener && !isInStandaloneMode) {
 	popup.classList.remove('hide');
-}
-// https://developer.chrome.com/docs/web-platform/document-picture-in-picture/
-// https://github.com/WICG/document-picture-in-picture
-
-if ('documentPictureInPicture' in window && !window.opener && !isInStandaloneMode) {
-	// The Document Picture-in-Picture API is supported.
-	pip.classList.remove('hide');
-	pip.addEventListener('click', () => togglePictureInPicture());
-
-	// windowPip = documentPictureInPicture.window;
-}
-async function togglePictureInPicture() {
-	// Close Picture-in-Picture window if any
-	if (documentPictureInPicture.window) {
-		documentPictureInPicture.window.close();
-
-		return;
-	}
-	// Open a Picture-in-Picture window
-	const container = document.querySelector('#container');
-	const pipWindow = await documentPictureInPicture.requestWindow({
-		width: 820,
-		height: 380
-	});
-	// Copy style sheets over from the initial document
-	// so that the player looks the same.
-	[...document.styleSheets].forEach((styleSheet) => {
-		try {
-			const cssRules = [...styleSheet.cssRules].map((rule) => rule.cssText).join('');
-			const style = document.createElement('style');
-
-			style.textContent = cssRules;
-			pipWindow.document.head.appendChild(style);
-		} catch (e) {
-			const link = document.createElement('link');
-
-			link.rel = 'stylesheet';
-			link.type = styleSheet.type;
-			link.media = styleSheet.media;
-			link.href = styleSheet.href;
-			pipWindow.document.head.appendChild(link);
-		}
-	});
-
-	pipWindow.document.body.append(container);
-	// Title and icon
-	pipWindow.document.title = 'Picture-in-Picture';
-	let link = pipWindow.document.createElement('link');
-	link.type = 'image/x-icon';
-	link.rel = 'shortcut icon';
-	link.href = '/img/picture-in-picture-fill.svg';
-	pipWindow.document.querySelector('head').appendChild(link);
-	// Listen for the PiP closing event to move the container back
-	pipWindow.addEventListener('unload', (event) => {
-		const body = document.querySelector('body');
-		const pipContainer = event.target.querySelector('#container');
-		body.append(pipContainer);
-	});
 }
 
 //* resizer
@@ -451,19 +392,13 @@ if (localStorage.getItem('resize') !== null) {
 	rightEditor.style.width = rw + '%';
 }
 
-let windowPip = window;
-
 function initialiseResize() {
-	if ('documentPictureInPicture' in window) {
-		windowPip = documentPictureInPicture.window ?? window;
-	}
-	
-	windowPip.addEventListener('mousemove', startResizing, false);
-	windowPip.addEventListener('mouseup', stopResizing, false);
+	window.addEventListener('mousemove', startResizing, false);
+	window.addEventListener('mouseup', stopResizing, false);
 }
 
 function startResizing(e) {
-	let size = (windowPip.innerWidth - e.clientX ) / windowPip.innerWidth * 100;
+	let size = (window.innerWidth - e.clientX ) / window.innerWidth * 100;
 
 	if (size > 99.8) size = 100;
 	if (size < 0.2) size = 0;
@@ -474,8 +409,8 @@ function startResizing(e) {
 }
 
 function stopResizing() {
-	windowPip.removeEventListener('mousemove', startResizing, false);
-	windowPip.removeEventListener('mouseup', stopResizing, false);
+	window.removeEventListener('mousemove', startResizing, false);
+	window.removeEventListener('mouseup', stopResizing, false);
 
 	editor.resize();
 	editor2.resize();
