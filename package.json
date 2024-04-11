@@ -18,7 +18,7 @@
   },
   "scripts": {
     "dev": "concurrently -c \"bgGray.bold,bgMagenta.bold,bgYellow.bold\" \"npm:dev:*\"",
-    "dev:11ty": "eleventy --serve --incremental --quiet",
+    "dev:11ty": "eleventy --serve",
     "dev:sass": "sass --no-source-map -w src/style.scss dist/style.css",
     "dev:esbuild": "esbuild --watch --bundle src/js/script.js --outfile=dist/js/script.js",
     "build": "concurrently \"npm:build:*\"",
