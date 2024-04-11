@@ -39,7 +39,6 @@ a {
 }
 header {
 	background-color: var(--bg);
-	border-bottom: 1px solid #333;
 	min-height: 3rem;
 	padding: 0 1rem;
 	display: flex;
@@ -220,6 +219,7 @@ button {
 	display: flex;
 	flex-direction: column;
 	width: 50%;
+	border-top: 1px solid #333;
 }
 .editor {
 	width: 100%;
@@ -228,11 +228,24 @@ button {
 .statusbar {
 	background: var(--bg);
 	border-top: 1px solid #333;
+	padding: 0.3rem 1rem;
+	height: 30px;
+	gap: 10px;
 	display: flex;
 	justify-content: space-between;
-	align-content: center;
 	align-items: center;
-	padding: 0.3rem 1rem;
+	flex-wrap: nowrap;
+	overflow-y: hidden;
+	overflow-x: auto;
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	> * {
+		display: inline-flex;
+		flex-wrap: nowrap;
+		white-space: nowrap;
+	}
 }
 .hide {
 	display: none;
@@ -362,4 +375,26 @@ button {
 footer {
 	margin-top: 1rem;
 	font-size: 2rem;
+}
+
+// PWA titlebar
+header, .titlebar {
+	left: env(titlebar-area-x, 0);
+	top: env(titlebar-area-y, 0);
+	height: env(titlebar-area-height, 30px);
+	width: env(titlebar-area-width, 100%);
+}
+.titlebar {
+	position: fixed;
+}
+@media (max-width: 800px) {
+	.menu {
+		margin-top: env(titlebar-area-height, 30px);
+	}
+}
+header, .menu .title, .titlebar {
+	-webkit-app-region: drag;
+}
+header .logo, .menu div, .menu-button-container {
+	-webkit-app-region: no-drag;
 }

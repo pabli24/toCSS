@@ -1,0 +1,58 @@
+{
+	"name": "to CSS Compiler",
+	"short_name": "to CSS Compiler",
+	"icons": [
+	  {
+		"src": "/img/favicon.png",
+		"sizes": "64x64",
+		"type": "image/png",
+		"purpose": "any maskable"
+	  },
+	  {
+		"src": "/img/logo256.png",
+		"sizes": "256x256",
+		"type": "image/png",
+		"purpose": "any maskable"
+	  }
+	],
+	"theme_color": "#1a1a1a",
+	"background_color": "#1a1a1a",
+	"display": "standalone",
+	"display_override": ["window-controls-overlay"],
+	"start_url": "/",
+	"scope": "/",
+	"shortcuts": [
+	  {
+		"name": "Stylus",
+		"url": "/stylus",
+		"icons": [{
+			"src": "/img/logo-stylus96.png",
+			"sizes": "96x96"
+		  }]
+	  },
+	  {
+		"name": "Less",
+		"url": "/less",
+		"icons": [{
+			"src": "/img/logo-less96.png",
+			"sizes": "96x96"
+		  }]
+	  },
+	  {
+		"name": "Scss",
+		"url": "/scss",
+		"icons": [{
+			"src": "/img/logo-sass96.png",
+			"sizes": "96x96"
+		  }]
+	  },
+	  {
+		"name": "Sass",
+		"url": "/sass",
+		"icons": [{
+			"src": "/img/logo-sass96.png",
+			"sizes": "96x96"
+		  }]
+	  }
+	]
+  }

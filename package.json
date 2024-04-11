@@ -3,18 +3,18 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
-    "ace-builds": "^1.32.6",
+    "ace-builds": "^1.32.9",
     "less": "^4.2.0",
     "lz-string": "^1.5.0",
-    "sass": "^1.71.0",
+    "sass": "^1.74.1",
     "stylus-lang-bundle": "^0.58.1",
     "usercss-meta": "^0.12.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
     "concurrently": "^8.2.2",
-    "esbuild": "^0.20.0",
-    "eslint": "^8.56.0"
+    "esbuild": "^0.20.2",
+    "eslint": "^9.0.0"
   },
   "scripts": {
     "dev": "concurrently -c \"bgGray.bold,bgMagenta.bold,bgYellow.bold\" \"npm:dev:*\"",

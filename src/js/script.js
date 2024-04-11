@@ -375,13 +375,15 @@ const pip = document.getElementById('pip');
 
 popup.onclick = () => window.open(window.location, 'mozillaWindow', 'popup');
 
-if (window.opener) {
-	popup.classList.add('hide');
+const isInStandaloneMode = (window.matchMedia('(display-mode: standalone)').matches) || (window.navigator.standalone) || (window.navigator.windowControlsOverlay && window.navigator.windowControlsOverlay.visible) || document.referrer.includes('android-app://');
+
+if (!window.opener && !isInStandaloneMode) {
+	popup.classList.remove('hide');
 }
 // https://developer.chrome.com/docs/web-platform/document-picture-in-picture/
 // https://github.com/WICG/document-picture-in-picture
 
-if ('documentPictureInPicture' in window & !window.opener) {
+if ('documentPictureInPicture' in window && !window.opener && !isInStandaloneMode) {
 	// The Document Picture-in-Picture API is supported.
 	pip.classList.remove('hide');
 	pip.addEventListener('click', () => togglePictureInPicture());
