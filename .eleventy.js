@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 module.exports = function(eleventyConfig) {
 
 	eleventyConfig.setServerOptions({
@@ -7,6 +10,19 @@ module.exports = function(eleventyConfig) {
 			key: "./localhost-key.pem",
 			cert: "./localhost.pem",
 		},
+	});
+
+	eleventyConfig.addGlobalData("stylusVersion", () => {
+		const packagePath = path.join(__dirname, "node_modules/stylus-lang-bundle/package.json");
+		try {
+			if (fs.existsSync(packagePath)) {
+				const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+				return packageJson.version;
+			}
+		} catch (error) {
+			console.error("Error reading stylus version:", error);
+		}
+		return "0.64.0";
 	});
 
 	eleventyConfig.addPassthroughCopy('./src/img');
