@@ -9,6 +9,7 @@ docs: 'https://sass-lang.com/documentation/'
 
 {% extends 'editor.njk' %} 
 {% block content %}
+@use "sass:color";
 @mixin box-shadow($x: 0, $y: 0, $blur: 1px, $alpha: 1) {
 	$val: $x $y $blur rgba(0, 0, 0, $alpha);
 	-webkit-box-shadow: $val;
@@ -17,8 +18,8 @@ docs: 'https://sass-lang.com/documentation/'
 }
 .box {
 	$base: #f938ab;
-	color:        saturate($base, 5%);
-	border-color: lighten($base, 30%);
+	color:        color.adjust($base, $saturation: 5%);
+	border-color: color.adjust($base, $lightness: 30%);
 	div {
 		@include box-shadow(0, 0, 5px, 0.4);
 	}
