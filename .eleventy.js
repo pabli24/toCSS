@@ -34,6 +34,7 @@ module.exports = function(eleventyConfig) {
 		"node_modules/ace-builds/src-min-noconflict/worker-css.js": "/js/worker-css.js",
 
 		"node_modules/stylus-lang-bundle/dist/stylus-renderer.min.js": "/js/stylus-renderer.min.js",
+		"node_modules/stylus-lang-bundle/dist/stylus-renderer.min.js.map": "/js/stylus-renderer.min.js.map",
 
 		"node_modules/less/dist/less.min.js": "/js/less.min.js",
 		"node_modules/less/dist/less.min.js.map": "/js/less.min.js.map",
