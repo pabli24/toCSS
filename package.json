@@ -6,7 +6,7 @@
     "ace-builds": "^1.37.5",
     "less": "^4.2.2",
     "lz-string": "^1.5.0",
-    "sass": "^1.83.4",
+    "sass": "^1.84.0",
     "stylus-lang-bundle": "^0.64.0",
     "usercss-meta": "^0.12.0"
   },
