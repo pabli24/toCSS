@@ -257,8 +257,7 @@ button {
 	> * {
 		display: inline-flex;
 		align-items: center;
-		flex-wrap: nowrap;
-		white-space: nowrap;
+		white-space: pre;
 	}
 	> :first-child {
 		gap: 3px;
