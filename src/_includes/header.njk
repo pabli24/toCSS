@@ -1,21 +1,22 @@
 <header>
 	<a class="logo flex" href="{{ '/' | url }}"><img height="25" src="{{ '/img/logo.svg' | url }}"></a>
-	<span class="title-mobile">to CSS Compiler</span>
+	<span class="title-mobile">{{ title }}</span>
 	<input id="menu-toggle" type="checkbox" />
 	<label class='menu-button-container' for="menu-toggle">
 		<div class='menu-button'></div>
 	</label>
 	<nav class="menu">
 		<div class="preprocessors">
-			<a href="{{ '/stylus' | url }}" class="flex"><img width="15" height="14" src="{{ '/img/logo-stylus.svg' | url }}" />Stylus</a>
-			<a href="{{ '/less' | url }}" class="flex"><img width="31" height="14" src="{{ '/img/logo-less.svg' | url }}" />Less</a>
-			<a href="{{ '/scss' | url }}" class="flex"><img width="19" height="14" src="{{ '/img/logo-sass.svg' | url }}" />Scss</a>
-			<a href="{{ '/sass' | url }}" class="flex"><img width="19" height="14" src="{{ '/img/logo-sass.svg' | url }}" />Sass</a>
+			<a href="{{ '/stylus' | url }}" class="flex{% if page.url === ('/stylus/' | url) %} active{% endif %}"><img width="15" height="14" src="{{ '/img/logo-stylus.svg' | url }}" />Stylus</a>
+			<a href="{{ '/less' | url }}" class="flex{% if page.url === ('/less/' | url) %} active{% endif %}"><img width="31" height="14" src="{{ '/img/logo-less.svg' | url }}" />Less</a>
+			<a href="{{ '/scss' | url }}" class="flex{% if page.url === ('/scss/' | url) %} active{% endif %}"><img width="19" height="14" src="{{ '/img/logo-sass.svg' | url }}" />Scss</a>
+			<a href="{{ '/sass' | url }}" class="flex{% if page.url === ('/sass/' | url) %} active{% endif %}"><img width="19" height="14" src="{{ '/img/logo-sass.svg' | url }}" />Sass</a>
 			<span class="title">to CSS Compiler</span>
 		</div>
 		<div class="settings">
 			<button id="popup" class="flex hide" title="Open in Popup"><img src="{{ '/img/picture-in-picture-fill.svg' | url }}" />Popup</button>
-			<button id="share" class="flex" title="Copy url to clipboard"><img src="{{ '/img/share-fill.svg' | url }}" />Share</button>
+			<button id="fullscreen" class="flex" title="Open in Fullscreen"><img src="{{ '/img/fullscreen-line.svg' | url }}" />Fullscreen</button>
+			<button id="share" class="flex" title="Copy URL with the current code to Clipboard"><img src="{{ '/img/share-fill.svg' | url }}" />Share</button>
 			<a href="https://github.com/pabli24/toCSS" target="_blank" title="See on GitHub" class="flex"><img src="{{ '/img/github-fill.svg' | url }}" /></a>
 		</div>
 	</nav>
