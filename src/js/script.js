@@ -319,9 +319,9 @@ editor.session.on('change', () => updateLengthStatusBar());
 editor2.session.on('change', () => updateLengthStatusBar());
 
 //* share
-let share = document.getElementById('share');
+let shareBtn = document.getElementById('share');
 
-share.onclick = () => {
+shareBtn.onclick = () => {
 	let decodeurl = LZString.compressToEncodedURIComponent(editor.getValue());
 	url.searchParams.set('c', decodeurl);
 	history.pushState({}, '', url);
@@ -371,15 +371,38 @@ editor2.commands.addCommands([{
 }]);
 
 //* open in popup
-const popup = document.getElementById('popup');
+const popupBtn = document.getElementById('popup');
 
-popup.onclick = () => window.open(window.location, 'mozillaWindow', 'popup');
+popupBtn.addEventListener('click', () => {
+	window.open(window.location, 'mozillaWindow', 'popup');
+});
 
 const isInStandaloneMode = (window.matchMedia('(display-mode: standalone)').matches) || (window.navigator.standalone) || (window.navigator.windowControlsOverlay && window.navigator.windowControlsOverlay.visible) || document.referrer.includes('android-app://');
 
 if (!window.opener && !isInStandaloneMode) {
 	popup.classList.remove('hide');
 }
+
+//* open in fullscreen
+const fullscreenBtn = document.getElementById('fullscreen');
+
+fullscreenBtn.addEventListener('click', () => {
+	if (!document.fullscreenElement) {
+		const el = document.documentElement;
+		
+		if (el.requestFullscreen) {
+			el.requestFullscreen();
+		} else if (el.webkitRequestFullscreen) { // Safari
+			el.webkitRequestFullscreen();
+		}
+	} else {
+		if (document.exitFullscreen) {
+			document.exitFullscreen();
+		} else if (document.webkitExitFullscreen) {
+			document.webkitExitFullscreen();
+		}
+	}
+});
 
 //* resizer
 const leftEditor = document.getElementById('input');
