@@ -365,6 +365,7 @@ button {
 		filter: drop-shadow(2px 2px 20px black);
 		vertical-align: middle;
 		max-width: 100%;
+		min-width: 24px;
 	}
 	h1 {
 		font-size: 3.125rem;
@@ -381,6 +382,7 @@ button {
 		section {
 			display: flex;
 			justify-content: center;
+			margin: 0 1.25rem;
 		}
 		ul {
 			list-style: none;
