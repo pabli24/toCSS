@@ -15,6 +15,10 @@ html {
 	box-sizing: border-box;
 	scrollbar-width: none;
 }
+input, button,
+textarea, select {
+	font: inherit;
+}
 body {
 	margin: 0;
 	padding: 0;
@@ -125,7 +129,7 @@ header {
 .title-mobile {
 	display: none;
 }
-@media (max-width: 800px) {
+@media (max-width: 840px) {
 	.title-mobile {
 		display: unset;
 	}
